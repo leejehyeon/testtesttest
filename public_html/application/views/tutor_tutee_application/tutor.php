@@ -5,7 +5,7 @@
 			<div class="col-xs-12">지원과목기제
 				<select name="user_subject" id="user_subject">
 					<?foreach($get_list as $lt){?>
-					<option value="<?echo $lt->subject_id;?>"><? echo $lt->subject;?>
+					<option><? echo $lt->subject;?>
 					<?}?>
 				</select>
 			</div>

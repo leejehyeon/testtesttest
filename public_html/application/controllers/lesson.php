@@ -5,7 +5,6 @@ class Lesson extends CI_Controller {
 	function __construct() {
 		parent::__construct();
 		$this -> load -> database();
-		$this -> load -> model('member');
 		$this -> load -> model('ci_board');
 		$this -> load -> model('attendance');
 		$this -> load -> library('session');
@@ -37,8 +36,6 @@ class Lesson extends CI_Controller {
 		 */
 		if (method_exists($this, $title)) {
 			if($title == "get_user_by_divide"){
-				$this -> {"{$title}"}($view_name, $data);
-			}else if($title == "daily_journal_admin_tutorlist"){
 				$this -> {"{$title}"}($view_name, $data);
 			}else{
 			$this -> load -> view('header', $data);
@@ -145,67 +142,13 @@ class Lesson extends CI_Controller {
 	}
 	
 	private function daily_journal_admin($view_name, $data) {
-		$data['subject_list']=$this -> attendance -> get_subject_all_data();
 		$this -> load -> view($view_name, $data);
-	}
-	
-	private function daily_journal_admin_tutorlist($view_name, $data){
-		$year = $this -> uri -> segment(3);
-		$month = $this -> uri -> segment(4);
-		$day = $this -> uri -> segment(5);
-		$subject = $_POST['subject'];
-		
-		$tutor_subject_array = array('subject_id'=> $_POST['subject']);
-		$this -> load -> model('member');
-		$data['tutor_data'] = $this -> member -> subject_by_tutor_data($tutor_subject_array);
-		$this -> load -> view($view_name, $data);
-	}
-	
-	private function daily_journal_tutor($view_name, $data){
-			$get_id_array = array('user_id' =>$this->input->post('user_id'));
-			$data['user_data_by_id'] = $this -> member -> user_id_get($get_id_array);
-			
-			$date = $this -> uri -> segment(3).'-'.$this -> uri -> segment(4);
-			$data_data_array = array('user_id' => $data['user_data_by_id']['user_id'],
-									 'date' => $date);
-			$all_data = $this -> attendance -> get_all_data($data_data_array);
-			
-			
-			$data_get_subject = array('subject_id' => $data['user_data_by_id']['subject_id']);
-			$data['get_subject'] = $this -> attendance -> get_subject($data_get_subject);
-			$data['get_list'] = $all_data;
-			$this -> load -> view($view_name, $data);
-	}
-	
-	private function daily_journal_update($view_name, $data) {
-			$data_update_by_date = array('user_id'=> $this -> input -> post('user_id'),
-									 	 'date'=> $this -> input -> post('date'));
-			$data['update_data'] = $this -> attendance -> get_data_id_date($data_update_by_date);
-			$this -> load -> view($view_name, $data);
-	}
-	
-	private function daily_journal_update_ok($view_name, $data){
-			$user_id_array = array('board_id' => $this -> input -> post('board_id'));
-			$update_daily_array = array( 'classroom'=> $this -> input -> post('classroom'),
-										 'subject'=> $this -> input -> post('subject'),
-									 	 'tutor_time'=> $this -> input -> post('tutor_time'),
-										 'date'=> $this -> input -> post('date'),
-									     'member_number' => $this -> input -> post('member_number'),
-										 'activity' => $this -> input -> post('activity'),
-										 'note' => $this -> input -> post('note')
-										 );
-			$this -> attendance -> update_daily($update_daily_array,$user_id_array);
-			alert_date('업데이트 되었습니다.', '/index.php/lesson/daily_journal_admin',date('Y'),date('m'));
 	}
 	
 	private function daily_journal($view_name, $data){
 			$date = $this -> uri -> segment(3).'-'.$this -> uri -> segment(4);
-			$data_data_array = array('user_id'=> $data['login_data']['user_id'],
-									 'date' => $date);
+			$data_data_array = array('date' => $date);
 			$all_data = $this -> attendance -> get_all_data($data_data_array);
-			$data_get_subject = array('subject_id' => $data['login_data']['subject_id']);
-			
-			$data['get_subject'] = $this -> attendance -> get_subject($data_get_subject);
 			$data['get_list'] = $all_data;
 			$this -> load -> view($view_name, $data);
 	}
@@ -242,7 +185,8 @@ class Lesson extends CI_Controller {
 		$this -> load -> view($view_name, $data);
 	}
 	private function select_divide(){
-		$divide_array = array('user_divide' => $this -> input -> post('user_divide'));
+		$divide_array = array('user_divide' => $this -> input -> post('user_divide')
+						   );
 		$this -> load -> model('tutee_application');
 		$this -> member -> select_list($divide_array);
 	}

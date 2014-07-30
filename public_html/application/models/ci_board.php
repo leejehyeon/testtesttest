@@ -48,7 +48,7 @@ class Ci_board extends CI_Model {
 		}else{
 			$result = $board_list -> result();
 		}
-		return $result; 
+		return $result;
 	}
 	
 	public function update_hit($board_id_type_array) {

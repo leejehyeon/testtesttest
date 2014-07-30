@@ -169,7 +169,7 @@
         	<input type="hidden" id="tutor_time" name="tutor_time" value="" />
         	<input type="hidden" name="user_id" value="<?=$login_data['user_id']?>" />
         	<input type="hidden" name="user_number" value="<?=$login_data['user_number']?>" />
-        	<input type="hidden" name="subject_id" value="<?=$login_data['subject_id']?>" />
+        	<input type="hidden" name="user_subject" value="<?=$login_data['user_subject']?>" />
         	<input type="hidden" name="user_name" value="<?=$login_data['user_name']?>" />
         	<input type="hidden" id="year" name="year" value="<?echo $this -> uri -> segment(3);?>" />
         	<input type="hidden" id="month" name="month" value="<?echo $this -> uri -> segment(4);?>" />
